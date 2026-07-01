@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Compass, Star, GraduationCap, Sparkles, Globe } from 'lucide-react';
+import Image from 'next/image';
 import GlassCard from './ui/GlassCard';
 
 export default function About() {
@@ -44,11 +45,17 @@ export default function About() {
           >
             {/* Curved Image Card */}
             <div className="relative group rounded-[2.5rem] overflow-hidden shadow-[0_24px_48px_rgba(96,165,250,0.1)] border-4 border-white">
-              <div 
-                className="w-full h-80 md:h-[350px] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: "url('/dr_labeeb_hero.png')" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-heading/40 via-transparent to-transparent" />
+              <div className="relative w-full h-80 md:h-[350px] overflow-hidden">
+                <Image 
+                  src="/dr_labeeb_hero.png"
+                  alt="Dr. Mohamed Labeeb KP profile"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-heading/40 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
                 <span className="text-xs font-bold uppercase tracking-wider bg-secondary/80 backdrop-blur-md px-3 py-1 rounded-full">MDS – Pediatric Dentistry</span>
                 <p className="mt-2 text-sm text-white/90">Independent Consultant Dentist</p>

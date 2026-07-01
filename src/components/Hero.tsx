@@ -1,16 +1,24 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Star, Shield, Heart, Sparkles, Smile, ArrowRight, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Shield, Heart, Sparkles, Smile, Award } from 'lucide-react';
+import Image from 'next/image';
 import MagneticButton from './ui/Button';
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [bubbleCount, setBubbleCount] = useState(0);
+  const [sparkleCount, setSparkleCount] = useState(0);
 
   // Parallax offsets based on mouse positions
   useEffect(() => {
+    setBubbleCount(window.innerWidth < 768 ? 4 : 12);
+    setSparkleCount(window.innerWidth < 768 ? 2 : 6);
+    
+    if (window.innerWidth < 768) return; // Disable heavy mouse parallax on mobile
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       const { clientWidth, clientHeight } = containerRef.current;
@@ -51,7 +59,7 @@ export default function Hero() {
 
         {/* Floating Bubble particles */}
         <div className="absolute inset-0 opacity-40">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(bubbleCount)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute rounded-full bg-primary/10 border border-white/20"
@@ -78,7 +86,7 @@ export default function Hero() {
 
         {/* Small floating sparkles */}
         <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(sparkleCount)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute text-accent"
@@ -201,13 +209,21 @@ export default function Hero() {
               }}
             >
               <div 
-                className="w-full h-full overflow-hidden bg-cover bg-center"
+                className="relative w-full h-full overflow-hidden"
                 style={{
                   borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
-                  backgroundImage: "url('/dr_labeeb_hero.png')",
                   animation: 'spin-slow 20s linear infinite reverse',
                 }}
-              />
+              >
+                <Image
+                  src="/dr_labeeb_hero.png"
+                  alt="Dr. Mohamed Labeeb KP"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 300px, 384px"
+                  className="object-cover object-center"
+                />
+              </div>
             </div>
 
             {/* Floating Card 1: Consultant Dentist */}

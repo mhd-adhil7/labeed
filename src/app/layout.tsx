@@ -5,20 +5,23 @@ import "./globals.css";
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  preload: false,
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Dr. Labeeb | Pediatric Dentist Specializing in Happy, Gentle Dental Care for Kids",
-  description: "Dr. Labeeb offers premium, gentle, pain-free pediatric dentistry services in a warm, playful environment. Book an appointment today for your child's healthy smile.",
-  keywords: ["Pediatric Dentist", "Dr. Labeeb", "Kids Dentistry", "Pain-free Dental Care", "Children's Dentist"],
-  authors: [{ name: "Dr. Labeeb" }],
+  title: "Dr. Mohamed Labeeb KP | Consultant Pediatric Dentist Portfolio",
+  description: "Specialized, child-friendly pediatric dental care by Dr. Mohamed Labeeb KP, Independent Consultant Pediatric Dentist with 5+ years of clinical experience.",
+  keywords: ["Pediatric Dentist", "Dr. Mohamed Labeeb KP", "Dr. Labeeb", "Consultant Pedodontist", "Kids Dental Care", "Airo-Magic Brush"],
+  authors: [{ name: "Dr. Mohamed Labeeb KP" }],
 };
 
 export default function RootLayout({

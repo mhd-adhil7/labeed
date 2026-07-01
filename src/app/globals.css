@@ -51,6 +51,50 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Mobile glass and shadow optimizations */
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 16px rgba(125, 211, 252, 0.04);
+  }
+
+  .glass-premium {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 24px rgba(96, 165, 250, 0.04);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .cursor-glow, .cursor-glow-dot {
+    display: none !important;
+  }
+}
+
+/* Respect user's preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float-slow,
+  .animate-float-reverse-slow,
+  .animate-spin-slow,
+  .animate-pulse-slow {
+    animation: none !important;
+  }
+}
+
 /* Magnetic Hover / Cursor styles */
 .cursor-glow {
   pointer-events: none;
