@@ -28,9 +28,9 @@ export default function CustomCursor() {
     const handleMouseLeave = () => setHidden(true);
     const handleMouseEnter = () => setHidden(false);
 
-    window.addEventListener('mousemove', moveCursor);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    document.addEventListener('mouseenter', handleMouseEnter, { passive: true });
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -48,7 +48,7 @@ export default function CustomCursor() {
       setHovered(!!isInteractive);
     };
 
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);

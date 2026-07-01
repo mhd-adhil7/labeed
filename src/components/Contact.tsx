@@ -69,11 +69,11 @@ export default function Contact() {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent("Hello Dr. Labeeb! I'd like to schedule a consultant pediatric dental visit for my child.");
-    window.open(`https://wa.me/919447000000?text=${message}`, '_blank');
+    window.open(`https://wa.me/919632756102?text=${message}`, '_blank');
   };
 
   const handleCall = () => {
-    window.open('tel:+919447000000', '_self');
+    window.open('tel:+919632756102', '_self');
   };
 
   return (
@@ -166,8 +166,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <span className="block text-[10px] text-body-text/80 uppercase font-bold">Phone Contact</span>
-                    <a href="tel:+919447000000" className="block text-sm font-bold text-heading mt-0.5 hover:text-secondary transition-colors">
-                      +91 94470 00000
+                    <a href="tel:+919632756102" className="block text-sm font-bold text-heading mt-0.5 hover:text-secondary transition-colors">
+                      +91 96327 56102
                     </a>
                   </div>
                 </div>

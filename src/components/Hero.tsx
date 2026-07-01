@@ -27,7 +27,7 @@ export default function Hero() {
       setMousePosition({ x, y });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
@@ -216,7 +216,7 @@ export default function Hero() {
                 }}
               >
                 <Image
-                  src="/dr_labeeb_hero.png"
+                  src="/dr_labeeb_hero.webp"
                   alt="Dr. Mohamed Labeeb KP"
                   fill
                   priority

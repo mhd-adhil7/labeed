@@ -47,7 +47,7 @@ export default function About() {
             <div className="relative group rounded-[2.5rem] overflow-hidden shadow-[0_24px_48px_rgba(96,165,250,0.1)] border-4 border-white">
               <div className="relative w-full h-80 md:h-[350px] overflow-hidden">
                 <Image 
-                  src="/dr_labeeb_hero.png"
+                  src="/dr_labeeb_hero.webp"
                   alt="Dr. Mohamed Labeeb KP profile"
                   fill
                   sizes="(max-width: 768px) 100vw, 400px"
