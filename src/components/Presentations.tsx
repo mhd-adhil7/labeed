@@ -1,9 +1,8 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Presentation, ShieldCheck, Award, Users, Star } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
+import Carousel from './ui/Carousel';
 
 const PRESENTATIONS = [
   {
@@ -44,24 +43,6 @@ const PRESENTATIONS = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: 'spring' as const, stiffness: 120, damping: 15 },
-  },
-};
-
 export default function Presentations() {
   return (
     <section id="presentations" className="relative py-24 md:py-32 overflow-hidden bg-white z-10">
@@ -75,39 +56,25 @@ export default function Presentations() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <ScrollReveal duration={0.6}>
             <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Academic Presentations</span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
               Conference Presentations
             </h2>
             <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
-          </motion.div>
+          </ScrollReveal>
         </div>
 
-        {/* Presentations list */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto text-left"
-        >
-          {PRESENTATIONS.map((pres, index) => {
-            const Icon = pres.icon;
-            return (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                className="h-full"
-              >
+        {/* Presentations Slider */}
+        <ScrollReveal duration={0.6} y={20}>
+          <Carousel desktopSlidesToShow={2} className="max-w-5xl mx-auto text-left">
+            {PRESENTATIONS.map((pres, index) => {
+              const Icon = pres.icon;
+              return (
                 <GlassCard
-                  hoverEffect={true}
-                  className="h-full flex flex-col justify-between p-8 bg-white border border-border-custom shadow-sm rounded-3xl hover:-translate-y-2 transition-all duration-300 group"
+                  key={index}
+                  hoverEffect={false}
+                  className="h-full flex flex-col justify-between p-8 bg-white border border-border-custom shadow-sm rounded-3xl group"
                 >
                   <div>
                     {/* Top row */}
@@ -139,12 +106,11 @@ export default function Presentations() {
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
                     <span>{pres.highlight}</span>
                   </div>
-
                 </GlassCard>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              );
+            })}
+          </Carousel>
+        </ScrollReveal>
 
       </div>
     </section>

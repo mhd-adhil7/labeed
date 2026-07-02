@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sparkles } from 'lucide-react';
 import MagneticButton from './ui/Button';
 
@@ -19,16 +19,23 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(progress);
+      }
+
       if (window.scrollY > 20) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -43,7 +50,15 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
+      {/* Scroll Progress Indicator (Desktop only) */}
+      <div className="fixed top-0 left-0 right-0 h-[3px] bg-slate-100/20 z-[9999] hidden md:block">
+        <div 
+          className="h-full bg-gradient-to-r from-secondary to-primary transition-all duration-75 shadow-[0_0_8px_rgba(96,165,250,0.4)]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      <m.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -107,14 +122,14 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </motion.nav>
+      </m.nav>
 
       {/* Mobile Drawer Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
             {/* Background Blur Overlay */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -123,7 +138,7 @@ export default function Navbar() {
             />
 
             {/* Slide-out Drawer */}
-            <motion.div
+            <m.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -148,7 +163,7 @@ export default function Navbar() {
 
                 <div className="flex flex-col gap-2 mt-8">
                   {NAV_ITEMS.map((item, index) => (
-                    <motion.a
+                    <m.a
                       key={item.name}
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
@@ -158,7 +173,7 @@ export default function Navbar() {
                       className="px-4 py-3 text-lg font-medium text-heading rounded-2xl hover:bg-primary/10 hover:text-secondary transition-all"
                     >
                       {item.name}
-                    </motion.a>
+                    </m.a>
                   ))}
                 </div>
               </div>
@@ -174,7 +189,7 @@ export default function Navbar() {
                   Contact Me
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

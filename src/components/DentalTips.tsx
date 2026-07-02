@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 import { BookOpen, Utensils, Shield, CheckCircle, ChevronDown, HeartPulse, Activity } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
 
@@ -88,10 +88,18 @@ const TIPS = [
 
 export default function DentalTips() {
   const [activeTip, setActiveTip] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const toggleTip = (id: string) => {
     setActiveTip(activeTip === id ? null : id);
   };
+
+  const animDuration = isMobile ? 0.15 : 0.45;
+  const animEase = (isMobile ? 'linear' : [0.16, 1, 0.3, 1]) as any;
 
   return (
     <section id="dental-tips" className="relative py-24 md:py-32 overflow-hidden bg-white z-10">
@@ -120,9 +128,9 @@ export default function DentalTips() {
             const Icon = tip.icon;
             
             return (
-              <motion.div
+              <m.div
                 key={tip.id}
-                layout
+                layout={!isMobile}
                 className="h-full"
               >
                 <GlassCard
@@ -140,12 +148,12 @@ export default function DentalTips() {
                       className="p-1.5 rounded-full bg-slate-100 text-heading hover:text-secondary hover:bg-slate-200 transition-all cursor-pointer"
                       aria-label="Toggle details"
                     >
-                      <motion.div
+                      <m.div
                         animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: animDuration }}
                       >
                         <ChevronDown className="w-4 h-4" />
-                      </motion.div>
+                      </m.div>
                     </button>
                   </div>
 
@@ -159,11 +167,11 @@ export default function DentalTips() {
 
                   <AnimatePresence initial={false}>
                     {isOpen && (
-                      <motion.div
+                      <m.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: animDuration, ease: animEase }}
                         className="overflow-hidden"
                       >
                         <ul className="space-y-2 mt-4 pt-4 border-t border-slate-100 text-xs text-body-text leading-relaxed list-disc pl-4 text-left">
@@ -173,7 +181,7 @@ export default function DentalTips() {
                             </li>
                           ))}
                         </ul>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
 
@@ -186,7 +194,7 @@ export default function DentalTips() {
                     </button>
                   )}
                 </GlassCard>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

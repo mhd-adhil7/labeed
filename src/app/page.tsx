@@ -6,14 +6,18 @@ import Hero from "@/components/Hero";
 import Trust from "@/components/Trust";
 import About from "@/components/About";
 import Footer from "@/components/Footer";
+import LazySection from "@/components/ui/LazySection";
 import { SectionSkeleton } from "@/components/ui/SkeletonLoader";
 
-// Dynamically import below-the-fold components
+// Dynamically import below-the-fold components to reduce initial page weight
 const ProfessionalExperience = dynamic(() => import("@/components/ProfessionalExperience"), {
   loading: () => <SectionSkeleton cardCount={2} />,
 });
 const Services = dynamic(() => import("@/components/Services"), {
   loading: () => <SectionSkeleton cardCount={3} />,
+});
+const BeforeAfterGallery = dynamic(() => import("@/components/BeforeAfterGallery"), {
+  loading: () => <SectionSkeleton cardCount={1} />,
 });
 const ResearchInnovation = dynamic(() => import("@/components/ResearchInnovation"), {
   loading: () => <SectionSkeleton cardCount={1} />,
@@ -47,18 +51,59 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <Trust />
-        <About />
-        <ProfessionalExperience />
-        <Services />
-        <ResearchInnovation />
-        <AwardsAchievements />
-        <Publications />
-        <Presentations />
-        <Certificates />
-        <DentalTips />
-        <FAQ />
-        <Contact />
+        
+        {/* Viewport lazy-load boundaries for below-the-fold sections */}
+        <LazySection fallback={<SectionSkeleton cardCount={2} />}>
+          <Trust />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={1} />}>
+          <About />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={2} />}>
+          <ProfessionalExperience />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={3} />}>
+          <Services />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={1} />}>
+          <BeforeAfterGallery />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={1} />}>
+          <ResearchInnovation />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={4} />}>
+          <AwardsAchievements />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={2} />}>
+          <Publications />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={2} />}>
+          <Presentations />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={4} />}>
+          <Certificates />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={3} />}>
+          <DentalTips />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={3} />}>
+          <FAQ />
+        </LazySection>
+        
+        <LazySection fallback={<SectionSkeleton cardCount={2} />}>
+          <Contact />
+        </LazySection>
       </main>
       <Footer />
     </SmoothScroll>

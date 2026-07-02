@@ -1,9 +1,8 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Award, Trophy, Medal, Video, FileText, Sparkles, GraduationCap } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
+import Carousel from './ui/Carousel';
 
 const AWARDS = [
   {
@@ -72,24 +71,6 @@ const AWARDS = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: 'spring' as const, stiffness: 120, damping: 15 },
-  },
-};
-
 export default function AwardsAchievements() {
   return (
     <section id="awards" className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-white to-bg-custom z-10">
@@ -103,32 +84,25 @@ export default function AwardsAchievements() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Achievements</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
-            Awards & Recognition
-          </h2>
-          <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          <ScrollReveal duration={0.6}>
+            <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Achievements</span>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
+              Awards & Recognition
+            </h2>
+            <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          </ScrollReveal>
         </div>
 
-        {/* Awards Bento/Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"
-        >
-          {AWARDS.map((award, idx) => {
-            const Icon = award.icon;
-            return (
-              <motion.div
-                key={idx}
-                variants={cardVariants}
-                className="h-full"
-              >
+        {/* Awards Horizontal Slider */}
+        <ScrollReveal duration={0.6} y={20}>
+          <Carousel desktopSlidesToShow={4}>
+            {AWARDS.map((award, idx) => {
+              const Icon = award.icon;
+              return (
                 <GlassCard
-                  hoverEffect={true}
-                  className="h-full flex flex-col justify-between p-6 bg-white border border-border-custom shadow-sm rounded-3xl hover:-translate-y-2 transition-all duration-300"
+                  key={idx}
+                  hoverEffect={false}
+                  className="h-full flex flex-col justify-between p-6 bg-white border border-border-custom shadow-sm rounded-3xl"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -153,10 +127,10 @@ export default function AwardsAchievements() {
                     </p>
                   </div>
                 </GlassCard>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              );
+            })}
+          </Carousel>
+        </ScrollReveal>
 
       </div>
     </section>

@@ -1,0 +1,29 @@
+# Tasks
+
+- [x] Setup & Helpers
+  - [x] Configure Cormorant Garamond font preloading in `layout.tsx`
+  - [x] Create `AnimateWrapper` to disable animations dynamically on mobile
+  - [x] Create `ScrollReveal` client wrapper for Server Components
+  - [x] Create `LazySection` for viewport intersection loading
+  - [x] Create premium `LoadingScreen` preloader
+  - [x] Adjust `SmoothScroll` to disable Lenis on mobile
+  - [x] Convert `GlassCard` and `SkeletonLoader` to Server Components
+- [x] Convert Core Components to Server Components
+  - [x] Convert `Trust.tsx`
+  - [x] Convert `About.tsx`
+  - [x] Convert `ProfessionalExperience.tsx`
+  - [x] Convert `ResearchInnovation.tsx`
+  - [x] Convert `Publications.tsx`
+  - [x] Convert `Presentations.tsx`
+- [x] Component & Section Optimizations
+  - [x] Optimize `Hero.tsx` (disable bubble particles on mobile; add reveal and scroll indicators on desktop)
+  - [x] Enhance `CustomCursor.tsx` with soft spotlight effect
+  - [x] Update `Button.tsx` (magnetic checks, hover bypass, click ripples)
+  - [x] Lazy load dynamic fold components in `page.tsx` (FAQ, Certificates, Contact, Gallery, timeline, education)
+  - [x] Include and lazy-load `BeforeAfterGallery`
+- [x] CSS & Styling Enhancements (`globals.css`)
+  - [x] Tune CSS variables for low-intensity mobile shadows/blurs
+  - [x] Add marquees, glass sweeps, bento cards, and tilt effects
+- [x] Verification
+  - [x] Run build checks using `npm run build`
+  - [x] Perform final reviews

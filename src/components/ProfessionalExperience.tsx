@@ -1,9 +1,8 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
-import { GraduationCap, Briefcase, Award, ArrowDown, MapPin } from 'lucide-react';
+import { GraduationCap, Briefcase, Award, MapPin } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import TimelineLine from './ui/TimelineLine';
+import ScrollReveal from './ui/ScrollReveal';
 
 const EXPERIENCE_TIMELINE = [
   {
@@ -62,26 +61,28 @@ export default function ProfessionalExperience() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-20 md:mb-28">
-          <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Career Path</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
-            Professional Experience
-          </h2>
-          <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          <ScrollReveal duration={0.6}>
+            <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Career Path</span>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
+              Professional Experience
+            </h2>
+            <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          </ScrollReveal>
         </div>
 
         {/* Timeline Path */}
-        <div className="relative border-l border-slate-100 ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
+        <div className="relative ml-4 md:ml-32 pl-8 md:pl-16 space-y-12">
+          {/* Scroll progress timeline line */}
+          <TimelineLine />
           
           {EXPERIENCE_TIMELINE.map((item, idx) => {
             const Icon = item.icon;
             
             return (
-              <motion.div
+              <ScrollReveal
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                duration={0.6}
+                delay={idx * 0.1}
                 className="relative"
               >
                 {/* Timeline node */}
@@ -99,7 +100,7 @@ export default function ProfessionalExperience() {
                 {/* Content Plaque */}
                 <GlassCard hoverEffect={true} className="p-6 md:p-8 rounded-[2rem] border border-white/60 bg-slate-50/30 relative overflow-hidden group">
                   {/* Background glow on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   
                   {/* Date indicator for mobile */}
                   <span className="inline-block md:hidden text-[10px] font-bold text-secondary bg-primary/10 rounded-full px-2.5 py-0.5 mb-2.5">
@@ -121,7 +122,7 @@ export default function ProfessionalExperience() {
                     </div>
                   )}
                 </GlassCard>
-              </motion.div>
+              </ScrollReveal>
             );
           })}
         </div>

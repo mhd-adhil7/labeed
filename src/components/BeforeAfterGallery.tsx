@@ -1,14 +1,45 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Sparkles, MoveHorizontal } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
 
 export default function BeforeAfterGallery() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [sliderPosition, setSliderPosition] = useState(50); // Percentage 0 - 100
+  const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+
+    if (isDragging) {
+      const handleMouseMove = (e: MouseEvent) => {
+        handleMove(e.clientX);
+      };
+      const handleTouchMove = (e: TouchEvent) => {
+        if (e.touches.length > 0) {
+          handleMove(e.touches[0].clientX);
+        }
+      };
+      const handleMouseUp = () => {
+        setIsDragging(false);
+      };
+
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('mouseup', handleMouseUp, { passive: true });
+      window.addEventListener('touchmove', handleTouchMove, { passive: true });
+      window.addEventListener('touchend', handleMouseUp, { passive: true });
+
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('touchend', handleMouseUp);
+      };
+    }
+  }, [isDragging]);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -20,37 +51,6 @@ export default function BeforeAfterGallery() {
     setSliderPosition(percentage);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-    handleMove(e.clientX);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (e.touches.length > 0) {
-      handleMove(e.touches[0].clientX);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-      window.addEventListener('touchmove', handleTouchMove);
-      window.addEventListener('touchend', handleMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleMouseUp);
-    };
-  }, [isDragging]);
-
-  // Support interactive click/tap positioning on the container
   const handleContainerClick = (e: React.MouseEvent) => {
     handleMove(e.clientX);
   };
@@ -109,8 +109,8 @@ export default function BeforeAfterGallery() {
               
               {/* Left Side SVG: Crooked, Spotted Tooth (Before) */}
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-100 to-white flex flex-col items-center justify-center p-8">
-                <div className="w-56 h-56 flex flex-col items-center justify-center opacity-85 rotate-[-8deg] relative">
-                  {/* Styled Before Tooth SVG */}
+                {/* Gallery Image Hover Zoom applied here: transition-transform hover:scale-110 duration-500 */}
+                <div className="w-56 h-56 flex flex-col items-center justify-center opacity-85 rotate-[-8deg] relative transition-transform duration-500 hover:scale-108">
                   <svg className="w-40 h-40 text-slate-300 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 .5C10.5.5 9 1.5 8 3c-1 1.5-2.5 2-4 2-1.5 0-3 1.5-3 3.5v5c0 3.5 3 6.5 6.5 7.5l2 1.5c1.5 1 3 1 4.5 0l2-1.5C18.5 20.5 21.5 17.5 21.5 14v-5c0-2-1.5-3.5-3-3.5-1.5 0-3-.5-4-2-1-1.5-2.5-2.5-4.5-2.5z" />
                   </svg>
@@ -127,12 +127,11 @@ export default function BeforeAfterGallery() {
                 className="absolute inset-y-0 right-0 left-0 bg-gradient-to-tr from-secondary/15 via-white to-primary/10 flex flex-col items-center justify-center p-8 overflow-hidden"
                 style={{ clipPath: `polygon(${sliderPosition}% 0, 100% 0, 100% 100%, ${sliderPosition}% 100%)` }}
               >
-                <div className="w-56 h-56 flex flex-col items-center justify-center relative scale-105">
-                  {/* Styled After Tooth SVG */}
+                {/* Gallery Image Hover Zoom applied here: transition-transform hover:scale-110 duration-500 */}
+                <div className="w-56 h-56 flex flex-col items-center justify-center relative scale-105 transition-transform duration-500 hover:scale-110">
                   <svg className="w-40 h-40 text-white fill-white drop-shadow-[0_12px_28px_rgba(96,165,250,0.3)] border-white" viewBox="0 0 24 24">
                     <path d="M12 .5C10.5.5 9 1.5 8 3c-1 1.5-2.5 2-4 2-1.5 0-3 1.5-3 3.5v5c0 3.5 3 6.5 6.5 7.5l2 1.5c1.5 1 3 1 4.5 0l2-1.5C18.5 20.5 21.5 17.5 21.5 14v-5c0-2-1.5-3.5-3-3.5-1.5 0-3-.5-4-2-1-1.5-2.5-2.5-4.5-2.5z" />
                   </svg>
-                  {/* Cute face overlay to make it child-friendly */}
                   <div className="absolute top-[42%] left-1/2 -translate-x-1/2 flex items-center gap-4 text-secondary">
                     <span className="text-sm font-bold">👀</span>
                   </div>
@@ -140,12 +139,16 @@ export default function BeforeAfterGallery() {
                     <span>👅</span>
                   </div>
                   {/* Sparkles */}
-                  <div className="absolute top-4 right-6 text-amber-400 animate-pulse">
-                    <Sparkles className="w-6 h-6 fill-amber-300" />
-                  </div>
-                  <div className="absolute bottom-12 left-4 text-amber-400 animate-pulse delay-500">
-                    <Sparkles className="w-5 h-5 fill-amber-300" />
-                  </div>
+                  {!isMobile && (
+                    <>
+                      <div className="absolute top-4 right-6 text-amber-400 animate-pulse">
+                        <Sparkles className="w-6 h-6 fill-amber-300" />
+                      </div>
+                      <div className="absolute bottom-12 left-4 text-amber-400 animate-pulse delay-500">
+                        <Sparkles className="w-5 h-5 fill-amber-300" />
+                      </div>
+                    </>
+                  )}
                   <span className="text-secondary font-bold text-sm mt-4">100% Corrected Smile</span>
                 </div>
               </div>

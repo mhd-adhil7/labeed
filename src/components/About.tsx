@@ -1,10 +1,8 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Heart, Compass, Star, GraduationCap, Sparkles, Globe } from 'lucide-react';
 import Image from 'next/image';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
 
 export default function About() {
   return (
@@ -19,28 +17,21 @@ export default function About() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
+          <ScrollReveal duration={0.6}>
             <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">About Me</span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
               Dr. Mohamed Labeeb KP
             </h2>
             <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
-          </motion.div>
+          </ScrollReveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Image and Value Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8 }}
+          <ScrollReveal
+            duration={0.8}
+            x={-30}
             className="lg:col-span-5 flex flex-col gap-6"
           >
             {/* Curved Image Card */}
@@ -87,14 +78,12 @@ export default function About() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Right Column: Bio, Education & Specialization */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8 }}
+          <ScrollReveal
+            duration={0.8}
+            x={30}
             className="lg:col-span-7 flex flex-col gap-8 text-left"
           >
             {/* Biography */}
@@ -165,8 +154,8 @@ export default function About() {
                   <div className="flex flex-wrap gap-2">
                     {['English', 'Malayalam', 'Kannada', 'Hindi', 'Arabic'].map((lang) => (
                       <span 
-                        key={lang} 
-                        className="px-3 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full border border-primary/20"
+                         key={lang} 
+                         className="px-3 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full border border-primary/20"
                       >
                         {lang}
                       </span>
@@ -175,7 +164,7 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
 
         </div>
       </div>

@@ -1,9 +1,7 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Award, ShieldCheck } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
 
 const MEMBERSHIPS = [
   {
@@ -38,12 +36,11 @@ export default function Trust() {
           {MEMBERSHIPS.map((mem, idx) => {
             const Icon = mem.icon;
             return (
-              <motion.div
+              <ScrollReveal
                 key={idx}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
+                delay={idx * 0.1}
+                duration={0.6}
+                y={15}
                 className="w-full md:w-1/2"
               >
                 <GlassCard
@@ -65,7 +62,7 @@ export default function Trust() {
                     </p>
                   </div>
                 </GlassCard>
-              </motion.div>
+              </ScrollReveal>
             );
           })}
         </div>

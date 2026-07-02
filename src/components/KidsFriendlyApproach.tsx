@@ -1,9 +1,7 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Sparkles, Heart, Cpu, BrainCircuit, MessageSquareCode } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
 
 const APPROACH_ITEMS = [
   {
@@ -48,81 +46,61 @@ const APPROACH_ITEMS = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-} as const;
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 25 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { type: 'spring', stiffness: 100, damping: 15 }
-  },
-} as const;
-
 export default function KidsFriendlyApproach() {
   return (
-    <section id="approach" className="relative py-24 md:py-32 overflow-hidden bg-white z-10">
-      
-      {/* Background design accents */}
+    <section id="approach" className="relative py-24 md:py-32 overflow-hidden bg-bg-custom z-10">
+      {/* Decorative Blurs */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[30%] left-[50%] -translate-x-1/2 w-[60vw] h-[60vw] rounded-full bg-primary/5 blur-[150px]" />
+        <div className="absolute top-[20%] left-0 w-[45vw] h-[45vw] rounded-full bg-secondary/5 blur-[125px] animate-pulse-slow" />
+        <div className="absolute bottom-[20%] right-0 w-[35vw] h-[35vw] rounded-full bg-primary/5 blur-[100px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Our Methodology</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
-            Dr. Labeeb's Kids-Friendly <br />
-            Treatment Approach
-          </h2>
-          <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          <ScrollReveal duration={0.6}>
+            <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Our Approach</span>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
+              Kids-Friendly Environment <br />
+              & Calm Care
+            </h2>
+            <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
+          </ScrollReveal>
         </div>
 
         {/* Bento Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {APPROACH_ITEMS.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <motion.div
+              <ScrollReveal
                 key={idx}
-                variants={cardVariants}
-                className={`group ${item.gridClass}`}
+                duration={0.6}
+                delay={idx * 0.05}
+                y={20}
+                className={`${item.gridClass} h-full`}
               >
-                <GlassCard 
-                  hoverEffect={true} 
-                  className={`h-full flex flex-col items-start text-left bg-white border border-border-custom shadow-sm transition-all duration-500 hover:-translate-y-2 ${item.hoverGlow}`}
+                <GlassCard
+                  hoverEffect={true}
+                  className={`h-full flex flex-col justify-between p-8 bg-white border border-border-custom shadow-sm rounded-[2.5rem] transition-all duration-500 hover:-translate-y-2.5 ${item.hoverGlow}`}
                 >
-                  <div className={`p-4 rounded-2xl mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${item.color}`}>
-                    <Icon className="w-6 h-6" />
+                  <div className="text-left">
+                    <div className={`p-4 rounded-2xl inline-flex mb-6 ${item.color}`}>
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-serif text-xl md:text-2xl font-bold text-heading mb-4">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs md:text-sm text-body-text leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-
-                  <h3 className="font-serif text-xl font-bold text-heading mb-3 group-hover:text-secondary transition-colors duration-300">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-body-text leading-relaxed">
-                    {item.description}
-                  </p>
                 </GlassCard>
-              </motion.div>
+              </ScrollReveal>
             );
           })}
-        </motion.div>
+        </div>
 
       </div>
     </section>

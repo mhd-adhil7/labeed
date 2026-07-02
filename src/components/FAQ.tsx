@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 import { ChevronDown, HelpCircle } from 'lucide-react';
-import GlassCard from './ui/GlassCard';
 
 const FAQS = [
   {
@@ -34,10 +33,18 @@ const FAQS = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const animDuration = isMobile ? 0.15 : 0.45;
+  const animEase = (isMobile ? 'linear' : [0.16, 1, 0.3, 1]) as any; // Premium cubic-bezier on desktop
 
   return (
     <section id="faq" className="relative py-24 md:py-32 overflow-hidden bg-white z-10">
@@ -65,12 +72,12 @@ export default function FAQ() {
           {FAQS.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <motion.div
+              <m.div
                 key={index}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: isMobile ? 5 : 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                transition={{ duration: animDuration, delay: isMobile ? 0 : index * 0.04 }}
               >
                 <div 
                   className={`rounded-2xl border transition-all duration-300 ${
@@ -90,33 +97,33 @@ export default function FAQ() {
                         {faq.question}
                       </span>
                     </div>
-                    <motion.div
+                    <m.div
                       animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      transition={{ duration: animDuration, ease: 'easeInOut' }}
                       className="p-1 rounded-full bg-slate-100 text-heading flex-shrink-0"
                     >
                       <ChevronDown className="w-5 h-5" />
-                    </motion.div>
+                    </m.div>
                   </button>
 
                   {/* Expandable Body */}
                   <AnimatePresence initial={false}>
                     {isOpen && (
-                      <motion.div
+                      <m.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        transition={{ duration: animDuration, ease: animEase }}
                         className="overflow-hidden"
                       >
                         <div className="px-6 pb-6 pt-0 text-sm text-body-text leading-relaxed pl-15 border-t border-slate-100 mt-2">
                           {faq.answer}
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

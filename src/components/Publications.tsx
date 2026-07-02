@@ -1,9 +1,7 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Users, ExternalLink, Award } from 'lucide-react';
+import { BookOpen, Calendar, Users, ExternalLink } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
 
 const PUBLICATIONS = [
   {
@@ -41,29 +39,22 @@ export default function Publications() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <ScrollReveal duration={0.6}>
             <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Academic Research</span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
               Publications & Papers
             </h2>
             <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
-          </motion.div>
+          </ScrollReveal>
         </div>
 
         {/* Publications Journal List */}
         <div className="max-w-4xl mx-auto flex flex-col gap-8 text-left">
           {PUBLICATIONS.map((pub, index) => (
-            <motion.div
+            <ScrollReveal
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.8 }}
+              duration={0.8}
+              delay={index * 0.1}
             >
               <GlassCard
                 hoverEffect={true}
@@ -127,7 +118,7 @@ export default function Publications() {
                 </div>
 
               </GlassCard>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </div>
 

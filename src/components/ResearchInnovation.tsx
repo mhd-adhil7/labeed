@@ -1,9 +1,7 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Sparkles, ShieldCheck, Heart, Award, FileText } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import ScrollReveal from './ui/ScrollReveal';
 
 export default function ResearchInnovation() {
   return (
@@ -18,28 +16,18 @@ export default function ResearchInnovation() {
         
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <ScrollReveal duration={0.6}>
             <span className="text-xs font-bold tracking-widest uppercase text-secondary font-sans">Research & Innovation</span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-heading mt-3 mb-6">
               Clinical Inventions & Research
             </h2>
             <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
-          </motion.div>
+          </ScrollReveal>
         </div>
 
         {/* Featured Innovation: Airo-Magic Brush */}
         <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
+          <ScrollReveal duration={0.8}>
             <GlassCard 
               hoverEffect={true}
               className="bg-gradient-to-tr from-primary/15 via-secondary/5 to-white border border-primary/20 rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden"
@@ -135,7 +123,7 @@ export default function ResearchInnovation() {
 
               </div>
             </GlassCard>
-          </motion.div>
+          </ScrollReveal>
         </div>
 
       </div>

@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
   Phone, Mail, Clock, PhoneCall, Calendar,
   Send, CheckCircle, MessageCircle, Sparkles, AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import GlassCard from './ui/GlassCard';
+import Carousel from './ui/Carousel';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -23,9 +24,11 @@ export default function Contact() {
 
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [showStickyCTA, setShowStickyCTA] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   // Monitor scroll to display mobile sticky bottom bar
   useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
     const handleScroll = () => {
       if (window.scrollY > 400) {
         setShowStickyCTA(true);
@@ -33,7 +36,7 @@ export default function Contact() {
         setShowStickyCTA(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -76,6 +79,8 @@ export default function Contact() {
     window.open('tel:+919632756102', '_self');
   };
 
+  const animDuration = isMobile ? 0.25 : 0.6;
+
   return (
     <>
       <section id="contact" className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-bg-custom via-white to-bg-custom z-10">
@@ -89,11 +94,11 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
           
           {/* Final CTA Gradient Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <m.div
+            initial={{ opacity: 0, y: isMobile ? 10 : 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: animDuration }}
             className="rounded-[3rem] bg-gradient-to-tr from-secondary via-primary to-secondary p-8 md:p-16 text-center text-white relative overflow-hidden shadow-[0_24px_50px_rgba(96,165,250,0.25)] border border-white/20 mb-20"
           >
             <div className="absolute top-0 left-0 w-32 h-32 rounded-full bg-white/5 blur-2xl" />
@@ -132,27 +137,27 @@ export default function Contact() {
                 <MessageCircle className="w-5 h-5 fill-white/10" /> WhatsApp Me
               </button>
             </div>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             
             {/* Left Column: Contact details */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+            <m.div
+              initial={{ opacity: 0, x: isMobile ? 0 : -30, y: isMobile ? 10 : 0 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: animDuration }}
               className="lg:col-span-5 flex flex-col gap-6"
             >
               <h3 className="font-serif text-3xl font-bold text-heading">Contact Details</h3>
               
-              <div className="space-y-4">
+              <Carousel desktopSlidesToShow={1} className="w-full">
                 {/* Availability info */}
-                <div className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-tr from-secondary/5 to-white border border-secondary/20 shadow-sm">
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-tr from-secondary/5 to-white border border-secondary/20 shadow-sm h-full w-full">
                   <div className="p-3 rounded-xl bg-secondary/15 text-secondary">
                     <Calendar className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="text-left">
                     <span className="block text-[10px] text-body-text/80 uppercase font-bold">Clinical Availability</span>
                     <span className="block text-sm font-bold text-heading mt-0.5">Consultations Across Reputed Dental Clinics</span>
                     <span className="block text-xs text-body-text/90 mt-1">Available by prior appointment only. Fill out the booking request to secure a slot.</span>
@@ -160,11 +165,11 @@ export default function Contact() {
                 </div>
 
                 {/* Phone detail */}
-                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-border-custom shadow-sm">
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-border-custom shadow-sm h-full w-full">
                   <div className="p-3 rounded-xl bg-primary/10 text-secondary">
                     <Phone className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="text-left">
                     <span className="block text-[10px] text-body-text/80 uppercase font-bold">Phone Contact</span>
                     <a href="tel:+919632756102" className="block text-sm font-bold text-heading mt-0.5 hover:text-secondary transition-colors">
                       +91 96327 56102
@@ -173,18 +178,18 @@ export default function Contact() {
                 </div>
 
                 {/* Email detail */}
-                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-border-custom shadow-sm">
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-border-custom shadow-sm h-full w-full">
                   <div className="p-3 rounded-xl bg-emerald-100 text-emerald-600">
                     <Mail className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="text-left">
                     <span className="block text-[10px] text-body-text/80 uppercase font-bold">Email Address</span>
                     <a href="mailto:hello@drlabeeb.com" className="block text-sm font-bold text-heading mt-0.5 hover:text-secondary transition-colors">
                       hello@drlabeeb.com
                     </a>
                   </div>
                 </div>
-              </div>
+              </Carousel>
 
               {/* Social Channels */}
               <div className="flex items-center gap-3 mt-2">
@@ -195,15 +200,15 @@ export default function Contact() {
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                 </a>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right Column: Appointment Form */}
-            <motion.div
+            <m.div
               id="booking-form"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: isMobile ? 0 : 30, y: isMobile ? 10 : 0 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: animDuration }}
               className="lg:col-span-7"
             >
               <GlassCard hoverEffect={false} className="p-8 md:p-10 border border-white/60 bg-white/70 shadow-lg">
@@ -214,7 +219,7 @@ export default function Contact() {
 
                 <AnimatePresence mode="wait">
                   {formStatus === 'success' ? (
-                    <motion.div
+                    <m.div
                       key="success"
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -234,9 +239,9 @@ export default function Contact() {
                       >
                         Request Another Consultation
                       </button>
-                    </motion.div>
+                    </m.div>
                   ) : (
-                    <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
+                    <m.form key="form" onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {/* Parent Name */}
                         <div>
@@ -373,11 +378,11 @@ export default function Contact() {
                           </>
                         )}
                       </button>
-                    </motion.form>
+                    </m.form>
                   )}
                 </AnimatePresence>
               </GlassCard>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>
@@ -386,18 +391,18 @@ export default function Contact() {
       {/* Floating Sticky Bottom CTA for Mobile */}
       <AnimatePresence>
         {showStickyCTA && (
-          <motion.div
+          <m.div
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-border-custom p-4 flex sm:hidden items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(15,23,42,0.06)]"
           >
             <button
               onClick={() => {
                 document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex-1 py-3 bg-secondary text-white font-bold rounded-xl text-center text-xs shadow-md"
+              className="flex-1 py-3 bg-secondary text-white font-bold rounded-xl text-center text-xs shadow-md animate-pulse-slow"
             >
               Request Consult
             </button>
@@ -413,13 +418,13 @@ export default function Contact() {
             >
               <MessageCircle className="w-4 h-4" /> Chat
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Floating Sticky WhatsApp Button (Visible above sm viewport) */}
       <div className="fixed bottom-6 right-6 z-40 hidden sm:block">
-        <motion.button
+        <m.button
           whileHover={{ scale: 1.1, rotate: 6 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleWhatsApp}
@@ -427,7 +432,7 @@ export default function Contact() {
           aria-label="Chat with Dr. Labeeb on WhatsApp"
         >
           <MessageCircle className="w-7 h-7 fill-white/10" />
-        </motion.button>
+        </m.button>
       </div>
     </>
   );

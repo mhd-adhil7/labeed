@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { m, useMotionValue, useSpring } from 'framer-motion';
 
 export default function CustomCursor() {
   const [hidden, setHidden] = useState(true);
@@ -62,8 +62,18 @@ export default function CustomCursor() {
 
   return (
     <>
+      {/* Soft cursor spotlight glow (Desktop only) */}
+      <m.div
+        className="fixed top-0 left-0 w-[200px] h-[200px] rounded-full bg-primary/10 pointer-events-none z-[2] hidden md:block blur-[60px]"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
       {/* Outer Glowing Circle */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 rounded-full border border-secondary/40 pointer-events-none z-[9999] hidden md:block"
         style={{
           x: cursorXSpring,
@@ -77,7 +87,7 @@ export default function CustomCursor() {
         }}
       />
       {/* Inner Dot */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-secondary pointer-events-none z-[9999] hidden md:block"
         style={{
           x: cursorX,

@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
-  GraduationCap, Sparkles, Shield, HeartPulse, Hammer, 
+  GraduationCap, Sparkles, Shield, HeartPulse, 
   Crown, Smile, Activity, Compass, ShieldAlert,
-  ArrowRight, X, Clock, HelpCircle
+  ArrowRight, X, Clock
 } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import Carousel from './ui/Carousel';
 
 const EXPERTISE_LIST = [
   {
@@ -15,7 +16,7 @@ const EXPERTISE_LIST = [
     title: 'Preventive Pediatric Dentistry',
     description: 'Advanced diagnostic screenings, dental sealants, and custom fluoride regimes to protect primary enamel from tooth decay.',
     icon: Shield,
-    gridClass: 'md:col-span-2 bg-gradient-to-br from-primary/10 via-secondary/5 to-white border border-primary/20',
+    gridClass: 'bg-gradient-to-br from-primary/10 via-secondary/5 to-white border border-primary/20',
     details: 'Preventive pediatric dentistry focuses on establishing a foundation of oral health. Through early cavity risk assessments, protective sealants in deep molar grooves, and customized topical fluoride treatments, we help keep your child’s teeth strong and cavity-free.',
   },
   {
@@ -23,7 +24,7 @@ const EXPERTISE_LIST = [
     title: 'Behaviour Management',
     description: 'Reassuring child-psychology techniques including Tell-Show-Do, positive reinforcement, and specialized distraction tools.',
     icon: Smile,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'Managing children’s anxiety is central to successful dental treatment. Dr. Labeeb uses proven psychological approaches, warm communications, and custom non-clinical distraction methodologies to create a pleasant and stress-free environment.',
   },
   {
@@ -31,7 +32,7 @@ const EXPERTISE_LIST = [
     title: 'Pulp Therapy',
     description: 'Gentle therapeutic pulpotomy and pulpectomy to treat and save primary teeth with infected inner nerve chambers.',
     icon: HeartPulse,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'Often known as a baby root canal, pulp therapy is designed to treat infected primary teeth. Removing the decayed pulp relieves deep toothaches and stops infection from affecting the bone and developing permanent teeth.',
   },
   {
@@ -39,7 +40,7 @@ const EXPERTISE_LIST = [
     title: 'Aesthetic Crowns',
     description: 'High-durability pediatric zirconia and composite crowns to restore heavily decayed front and back teeth.',
     icon: Crown,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'When simple fillings are insufficient to support a badly decayed tooth, pediatric crowns act as a protective cap. Dr. Labeeb uses premium, natural-looking tooth-colored crowns to preserve dental function and appearance.',
   },
   {
@@ -47,7 +48,7 @@ const EXPERTISE_LIST = [
     title: 'Preventive & Interceptive Orthodontics',
     description: 'Early screenings and functional growth guidance appliances to prevent dental crowding and bite alignment issues.',
     icon: Compass,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'Interceptive orthodontics addresses dental alignment problems while a child’s jaw is still growing. Custom-designed active or passive growth guidance appliances help direct jaw development, simplifying or preventing future orthodontic treatments.',
   },
   {
@@ -55,7 +56,7 @@ const EXPERTISE_LIST = [
     title: 'Nitrous Oxide Sedation',
     description: 'Safe and comfortable inhalation sedation (laughing gas) to ease mild to moderate dental anxiety during procedures.',
     icon: Activity,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'Nitrous oxide, or laughing gas, is a safe and mild sedative. Inhaled through a small nose mask, it induces a relaxed, happy state in children, allowing them to remain fully conscious and co-operative during treatment.',
   },
   {
@@ -63,7 +64,7 @@ const EXPERTISE_LIST = [
     title: 'Management under General Anaesthesia',
     description: 'Full-mouth dental rehabilitation under general anaesthesia for extremely anxious, very young, or special needs patients.',
     icon: Sparkles,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'For children who are very young, have severe dental phobias, or have special health needs, dental treatments can be carried out under GA in an operating theater. This ensures the child’s absolute safety and allows for full treatment in a single visit.',
   },
   {
@@ -71,7 +72,7 @@ const EXPERTISE_LIST = [
     title: 'Dental Trauma Management',
     description: 'Urgent stabilization, splinting, and restorative care for fractures, displacements, or knocked-out (avulsed) teeth.',
     icon: ShieldAlert,
-    gridClass: 'md:col-span-2 bg-gradient-to-br from-red-500/5 to-white border border-red-500/10',
+    gridClass: 'bg-gradient-to-br from-red-500/5 to-white border border-red-500/10',
     details: 'Children often experience dental injuries during play or sports. Dr. Labeeb provides expert emergency dental care, including tooth splinting, restorative crown builds, and root treatment to protect adjacent permanent tooth germs.',
   },
   {
@@ -79,7 +80,7 @@ const EXPERTISE_LIST = [
     title: 'Space Maintainers',
     description: 'Custom acrylic or metal retainers that hold open critical gaps left by primary teeth lost prematurely.',
     icon: Clock,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'If a primary tooth falls out early due to decay or injury, surrounding teeth can drift into the empty space. A space maintainer holds that gap open, ensuring the underlying permanent tooth has enough room to emerge properly.',
   },
   {
@@ -87,7 +88,7 @@ const EXPERTISE_LIST = [
     title: 'School Dental Health Programs',
     description: 'Community-wide school screenings, oral hygiene workshops, and educational seminars for kids, parents, and teachers.',
     icon: GraduationCap,
-    gridClass: 'col-span-1 bg-white border border-border-custom',
+    gridClass: 'bg-white border border-border-custom',
     details: 'Education is key to oral health. Dr. Labeeb actively designs and hosts pediatric workshops and screening camps at local schools, educating parents and children on proper tooth brushing techniques and cavity-preventive lifestyles.',
   },
 ];
@@ -115,54 +116,46 @@ export default function Services() {
           <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {EXPERTISE_LIST.map((exp, idx) => {
+        {/* Horizontal Slider/Carousel */}
+        <Carousel desktopSlidesToShow={3}>
+          {EXPERTISE_LIST.map((exp) => {
             const Icon = exp.icon;
             return (
-              <motion.div
+              <GlassCard
                 key={exp.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: Math.min(idx * 0.05, 0.4), duration: 0.6 }}
-                className="h-full"
+                hoverEffect={false}
+                className={`h-full flex flex-col items-start p-8 rounded-3xl transition-all duration-500 bento-card ${exp.gridClass}`}
               >
-                <GlassCard
-                  hoverEffect={true}
-                  className={`h-full flex flex-col items-start p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(96,165,250,0.06)] ${exp.gridClass}`}
+                <div className="p-4.5 rounded-2xl bg-primary/10 text-secondary mb-6 group-hover:scale-110 transition-transform duration-500 pointer-events-none">
+                  <Icon className="w-6 h-6" />
+                </div>
+
+                <h3 className="font-serif text-xl font-bold text-heading mb-3">
+                  {exp.title}
+                </h3>
+
+                <p className="text-sm text-body-text leading-relaxed mb-6">
+                  {exp.description}
+                </p>
+
+                <button
+                  onClick={() => setSelectedExpertise(exp)}
+                  className="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-secondary hover:text-primary transition-colors cursor-pointer group/btn"
                 >
-                  <div className="p-4.5 rounded-2xl bg-primary/10 text-secondary mb-6 group-hover:scale-110 transition-transform duration-500">
-                    <Icon className="w-6 h-6" />
-                  </div>
-
-                  <h3 className="font-serif text-xl font-bold text-heading mb-3">
-                    {exp.title}
-                  </h3>
-
-                  <p className="text-sm text-body-text leading-relaxed mb-6">
-                    {exp.description}
-                  </p>
-
-                  <button
-                    onClick={() => setSelectedExpertise(exp)}
-                    className="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-secondary hover:text-primary transition-colors cursor-pointer group/btn"
-                  >
-                    Details
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                  </button>
-                </GlassCard>
-              </motion.div>
+                  Details
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                </button>
+              </GlassCard>
             );
           })}
-        </div>
+        </Carousel>
 
         {/* Modal Detail Overlay */}
         <AnimatePresence>
           {selectedExpertise && (
             <>
               {/* Blur Overlay */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -170,7 +163,7 @@ export default function Services() {
                 className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4"
               >
                 {/* Modal Container */}
-                <motion.div
+                <m.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.9, opacity: 0 }}
@@ -181,7 +174,7 @@ export default function Services() {
                   {/* Close button */}
                   <button
                     onClick={() => setSelectedExpertise(null)}
-                    className="absolute top-4 right-4 p-2 text-heading hover:text-secondary hover:bg-primary/10 rounded-full transition-colors"
+                    className="absolute top-4 right-4 p-2 text-heading hover:text-secondary hover:bg-primary/10 rounded-full transition-colors cursor-pointer"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -217,8 +210,8 @@ export default function Services() {
                       Close
                     </button>
                   </div>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             </>
           )}
         </AnimatePresence>

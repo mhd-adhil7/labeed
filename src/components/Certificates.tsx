@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Award, ShieldCheck, X, ZoomIn, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
+import { Award, Calendar, X, ZoomIn } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import Carousel from './ui/Carousel';
 
 const CERTIFICATES = [
   {
@@ -82,55 +83,53 @@ export default function Certificates() {
           <div className="w-16 h-1 bg-secondary rounded-full mx-auto" />
         </div>
 
-        {/* Certificates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
-          {CERTIFICATES.map((cert, index) => (
-            <motion.div
-              key={cert.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05, duration: 0.6 }}
-              onClick={() => setSelectedCert(cert)}
-              className="cursor-pointer group"
-            >
-              <GlassCard 
-                hoverEffect={true} 
-                className={`relative flex flex-col justify-between p-8 rounded-[2rem] bg-white border border-border-custom hover:-translate-y-2.5 transition-all duration-500 shadow-sm ${cert.color}`}
+        {/* Certificates Carousel */}
+        <div className="max-w-5xl mx-auto">
+          <Carousel desktopSlidesToShow={2}>
+            {CERTIFICATES.map((cert) => (
+              <div
+                key={cert.id}
+                onClick={() => setSelectedCert(cert)}
+                className="cursor-pointer group h-full"
               >
-                {/* Luxury Certificate layout */}
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`p-4 rounded-2xl ${cert.logoBg}`}>
-                      <Award className="w-6 h-6" />
+                <GlassCard 
+                  hoverEffect={false} 
+                  className={`relative flex flex-col justify-between p-8 rounded-[2rem] bg-white border border-border-custom shadow-sm h-full ${cert.color}`}
+                >
+                  {/* Luxury Certificate layout */}
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className={`p-4 rounded-2xl ${cert.logoBg}`}>
+                        <Award className="w-6 h-6" />
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] font-bold text-body-text/80 bg-slate-100 rounded-full px-3 py-1">
+                        <Calendar className="w-3.5 h-3.5" /> {cert.year}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-body-text/80 bg-slate-100 rounded-full px-3 py-1">
-                      <Calendar className="w-3.5 h-3.5" /> {cert.year}
-                    </div>
+
+                    <h3 className="font-serif text-xl font-bold text-heading mb-1.5 group-hover:text-secondary transition-colors duration-300">
+                      {cert.title}
+                    </h3>
+                    
+                    <span className="block text-xs font-semibold text-secondary mb-4">
+                      {cert.organization}
+                    </span>
+
+                    <p className="text-xs text-body-text/95 leading-relaxed">
+                      {cert.description}
+                    </p>
                   </div>
 
-                  <h3 className="font-serif text-xl font-bold text-heading mb-1.5 group-hover:text-secondary transition-colors duration-300">
-                    {cert.title}
-                  </h3>
-                  
-                  <span className="block text-xs font-semibold text-secondary mb-4">
-                    {cert.organization}
-                  </span>
-
-                  <p className="text-xs text-body-text/95 leading-relaxed">
-                    {cert.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between mt-8 border-t border-border-custom/50 pt-4">
-                  <span className="text-[10px] font-mono tracking-widest text-body-text/60">ID: {cert.credentialId}</span>
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-secondary group-hover:text-primary transition-colors">
-                    View Plaque <ZoomIn className="w-3.5 h-3.5 ml-0.5" />
-                  </span>
-                </div>
-              </GlassCard>
-            </motion.div>
-          ))}
+                  <div className="flex items-center justify-between mt-8 border-t border-border-custom/50 pt-4">
+                    <span className="text-[10px] font-mono tracking-widest text-body-text/60">ID: {cert.credentialId}</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-secondary group-hover:text-primary transition-colors">
+                      View Plaque <ZoomIn className="w-3.5 h-3.5 ml-0.5" />
+                    </span>
+                  </div>
+                </GlassCard>
+              </div>
+            ))}
+          </Carousel>
         </div>
 
         {/* Full Plaque Modal Zoom */}
@@ -138,7 +137,7 @@ export default function Certificates() {
           {selectedCert && (
             <>
               {/* Overlay Blur */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -146,7 +145,7 @@ export default function Certificates() {
                 className="fixed inset-0 bg-slate-900/50 backdrop-blur-md z-50 flex items-center justify-center p-4"
               >
                 {/* Plaque container */}
-                <motion.div
+                <m.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.9, opacity: 0 }}
@@ -177,7 +176,7 @@ export default function Certificates() {
                   <div className="w-16 h-0.5 bg-amber-600/30 mb-8" />
 
                   <p className="text-sm text-stone-700 leading-relaxed max-w-sm italic mb-8">
-                    "This document certifies that the individual named has successfully passed all clinical criteria and boards necessary to practice specialized children\'s dental care."
+                    "This document certifies that the individual named has successfully passed all clinical criteria and boards necessary to practice specialized children's dental care."
                   </p>
 
                   <div className="flex justify-between w-full border-t border-stone-200 pt-6">
@@ -190,8 +189,8 @@ export default function Certificates() {
                       <span className="font-mono text-xs text-stone-800">{selectedCert.credentialId}</span>
                     </div>
                   </div>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             </>
           )}
         </AnimatePresence>

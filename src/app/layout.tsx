@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import AppAnimationProvider from "@/components/ui/AppAnimationProvider";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -7,7 +9,6 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
-  preload: false,
 });
 
 const inter = Inter({
@@ -35,7 +36,10 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg-custom text-body-text">
-        {children}
+        <AppAnimationProvider>
+          <LoadingScreen />
+          {children}
+        </AppAnimationProvider>
       </body>
     </html>
   );
