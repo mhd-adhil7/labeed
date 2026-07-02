@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Sparkles, ArrowUp } from 'lucide-react';
 
@@ -19,18 +17,6 @@ const FOOTER_LINKS = [
 ];
 
 export default function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <footer className="relative bg-heading text-white/95 pt-20 pb-28 sm:pb-16 overflow-hidden z-10 border-t border-slate-800">
       
@@ -79,7 +65,6 @@ export default function Footer() {
                   <a
                     key={link.name}
                     href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
                     className="text-sm text-white/70 hover:text-primary transition-colors py-0.5"
                   >
                     {link.name}
@@ -95,12 +80,12 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8 text-xs text-white/50">
           <span>&copy; {new Date().getFullYear()} Dr. Mohamed Labeeb KP. All rights reserved.</span>
           
-          <button
-            onClick={scrollToTop}
+          <a
+            href="#"
             className="mt-6 sm:mt-0 flex items-center gap-1.5 px-4 py-2 border border-slate-800 bg-slate-900/50 hover:bg-slate-800 rounded-full text-white/70 hover:text-white transition-colors cursor-pointer"
           >
             Back to Top <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          </a>
         </div>
 
       </div>

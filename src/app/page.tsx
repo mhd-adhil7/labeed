@@ -1,15 +1,19 @@
 import dynamic from "next/dynamic";
 import SmoothScroll from "@/components/SmoothScroll";
-import CustomCursor from "@/components/CustomCursor";
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Trust from "@/components/Trust";
-import About from "@/components/About";
-import Footer from "@/components/Footer";
 import LazySection from "@/components/ui/LazySection";
 import { SectionSkeleton } from "@/components/ui/SkeletonLoader";
 
-// Dynamically import below-the-fold components to reduce initial page weight
+// Dynamically import client widgets and below-the-fold content to maximize mobile rendering speeds
+const CustomCursor = dynamic(() => import("@/components/CustomCursor"));
+const Navbar = dynamic(() => import("@/components/Navbar"));
+
+const Trust = dynamic(() => import("@/components/Trust"), {
+  loading: () => <SectionSkeleton cardCount={2} />,
+});
+const About = dynamic(() => import("@/components/About"), {
+  loading: () => <SectionSkeleton cardCount={1} />,
+});
 const ProfessionalExperience = dynamic(() => import("@/components/ProfessionalExperience"), {
   loading: () => <SectionSkeleton cardCount={2} />,
 });
@@ -43,6 +47,7 @@ const FAQ = dynamic(() => import("@/components/FAQ"), {
 const Contact = dynamic(() => import("@/components/Contact"), {
   loading: () => <SectionSkeleton cardCount={2} />,
 });
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (
