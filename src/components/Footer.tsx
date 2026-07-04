@@ -4,15 +4,12 @@ import { Sparkles, ArrowUp } from 'lucide-react';
 const FOOTER_LINKS = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Journey', href: '#experience' },
+  { name: 'Experience', href: '#experience' },
   { name: 'Expertise', href: '#expertise' },
-  { name: 'Research', href: '#research' },
+  { name: 'Research & Thesis', href: '#research' },
   { name: 'Awards', href: '#awards' },
   { name: 'Publications', href: '#publications' },
   { name: 'Presentations', href: '#presentations' },
-  { name: 'Certifications', href: '#certificates' },
-  { name: 'Education', href: '#dental-tips' },
-  { name: 'FAQ', href: '#faq' },
   { name: 'Contact', href: '#contact' },
 ];
 

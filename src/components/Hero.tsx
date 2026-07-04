@@ -1,8 +1,9 @@
 import React from 'react';
 import { Shield, Heart, Sparkles, Smile, Award } from 'lucide-react';
 import Image from 'next/image';
-import NumberCounter from './ui/NumberCounter';
-import HeroAnimations from './ui/HeroAnimations';
+import dynamic from 'next/dynamic';
+
+const HeroAnimations = dynamic(() => import('./ui/HeroAnimations'));
 
 export default function Hero() {
   return (
@@ -33,10 +34,10 @@ export default function Hero() {
 
           {/* Heading with static layout and CSS transition delay on desktop mount */}
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-heading leading-[1.08] mb-6 overflow-hidden">
-            <span className="block animate-slide-up-fade">
+            <span className="block md:animate-slide-up-fade">
               Dr. Mohamed Labeeb KP
             </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-primary to-secondary/80 bg-size-200 text-3xl sm:text-4xl md:text-5xl block mt-3 font-sans font-medium tracking-normal animate-slide-up-fade animation-delay-200">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-primary to-secondary/80 bg-size-200 text-3xl sm:text-4xl md:text-5xl block mt-3 font-sans font-medium tracking-normal md:animate-slide-up-fade animation-delay-200">
               MDS – Pediatric & Preventive Dentistry
             </span>
           </h1>
@@ -62,23 +63,15 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Statistics */}
-          <div className="grid grid-cols-3 gap-6 md:gap-8 pt-8 border-t border-border-custom w-full max-w-lg">
-            <div>
-              <span className="block font-serif text-3xl md:text-4xl font-bold text-heading">
-                <NumberCounter value={5} suffix="+" />
-              </span>
-              <span className="block text-xs font-semibold text-body-text/80 mt-1">Years Experience</span>
+          {/* Credentials */}
+          <div className="flex flex-wrap gap-x-6 gap-y-3 pt-8 border-t border-border-custom w-full max-w-lg text-sm text-body-text/80 font-medium">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-secondary" />
+              <span>MDS (Pediatric & Preventive Dentistry)</span>
             </div>
-            <div>
-              <span className="block font-serif text-3xl md:text-4xl font-bold text-heading font-serif">MDS</span>
-              <span className="block text-xs font-semibold text-body-text/80 mt-1">Specialist Degree</span>
-            </div>
-            <div>
-              <span className="block font-serif text-3xl md:text-4xl font-bold text-heading">
-                <NumberCounter value={10} suffix="+" />
-              </span>
-              <span className="block text-xs font-semibold text-body-text/80 mt-1">Partner Clinics</span>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-secondary" />
+              <span>BDS (Bachelor of Dental Surgery)</span>
             </div>
           </div>
         </div>
@@ -89,17 +82,15 @@ export default function Hero() {
             
             {/* Blob Image Container */}
             <div 
-              className="relative w-76 h-76 sm:w-96 sm:h-96 bg-gradient-to-tr from-secondary/30 via-primary/30 to-accent/20 p-2 overflow-hidden shadow-[0_32px_60px_rgba(96,165,250,0.12)]"
+              className="relative w-76 h-76 sm:w-96 sm:h-96 bg-gradient-to-tr from-secondary/30 via-primary/30 to-accent/20 p-2 overflow-hidden shadow-[0_32px_60px_rgba(96,165,250,0.12)] animate-spin-slow"
               style={{
                 borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
-                animation: 'spin-slow 20s linear infinite',
               }}
             >
               <div 
-                className="relative w-full h-full overflow-hidden"
+                className="relative w-full h-full overflow-hidden animate-spin-reverse-slow"
                 style={{
                   borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
-                  animation: 'spin-slow 20s linear infinite reverse',
                 }}
               >
                 <Image
@@ -114,7 +105,7 @@ export default function Hero() {
             </div>
 
             {/* Floating Card 1: Consultant Dentist */}
-            <div className="absolute top-0 -left-6 bg-white/85 backdrop-blur-md px-4 py-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center gap-3 animate-float-slow">
+            <div className="absolute top-0 -left-6 bg-white/85 backdrop-blur-md px-4 py-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center gap-3 md:animate-float-slow">
               <div className="w-9 h-9 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
                 <Award className="w-5 h-5" />
               </div>
@@ -125,7 +116,7 @@ export default function Hero() {
             </div>
 
             {/* Floating Card 2: Dental Clinics */}
-            <div className="absolute bottom-6 -left-10 bg-white/85 backdrop-blur-md px-5 py-3.5 rounded-2xl shadow-[0_16px_32px_rgba(15,23,42,0.08)] border border-white/60 flex items-center gap-3 animate-float-reverse-slow">
+            <div className="absolute bottom-6 -left-10 bg-white/85 backdrop-blur-md px-5 py-3.5 rounded-2xl shadow-[0_16px_32px_rgba(15,23,42,0.08)] border border-white/60 flex items-center gap-3 md:animate-float-reverse-slow">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-secondary">
                 <Smile className="w-6 h-6" />
               </div>
@@ -136,7 +127,7 @@ export default function Hero() {
             </div>
 
             {/* Floating Card 3: preventive shield */}
-            <div className="absolute top-1/2 -right-6 bg-white/85 backdrop-blur-md px-4 py-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center gap-3 animate-float-slow">
+            <div className="absolute top-1/2 -right-6 bg-white/85 backdrop-blur-md px-4 py-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center gap-3 md:animate-float-slow">
               <div className="w-9 h-9 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                 <Shield className="w-5 h-5" />
               </div>
@@ -147,8 +138,8 @@ export default function Hero() {
             </div>
 
             {/* Floating Card 4: Hearts */}
-            <div className="absolute bottom-0 right-4 bg-white/85 backdrop-blur-md p-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center justify-center animate-float-reverse-slow">
-              <Heart className="w-5 h-5 text-red-500 fill-red-500 animate-pulse" />
+            <div className="absolute bottom-0 right-4 bg-white/85 backdrop-blur-md p-3 rounded-2xl shadow-[0_12px_24px_rgba(15,23,42,0.06)] border border-white/60 flex items-center justify-center md:animate-float-reverse-slow">
+              <Heart className="w-5 h-5 text-red-500 fill-red-500 md:animate-pulse" />
             </div>
 
           </div>

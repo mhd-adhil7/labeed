@@ -6,11 +6,10 @@ import { Menu, X, Sparkles } from 'lucide-react';
 const NAV_ITEMS = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Journey', href: '#experience' },
+  { name: 'Experience', href: '#experience' },
   { name: 'Expertise', href: '#expertise' },
-  { name: 'Certifications', href: '#certificates' },
-  { name: 'Education', href: '#dental-tips' },
-  { name: 'FAQ', href: '#faq' },
+  { name: 'Research & Thesis', href: '#research' },
+  { name: 'Awards', href: '#awards' },
   { name: 'Contact', href: '#contact' },
 ];
 

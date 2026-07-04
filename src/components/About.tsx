@@ -48,7 +48,7 @@ export default function About() {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-heading/40 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
-                <span className="text-xs font-bold uppercase tracking-wider bg-secondary/80 backdrop-blur-md px-3 py-1 rounded-full">MDS – Pediatric Dentistry</span>
+                <span className="text-xs font-bold uppercase tracking-wider bg-secondary/80 backdrop-blur-md px-3 py-1 rounded-full">MDS – Pediatric & Preventive Dentistry</span>
                 <p className="mt-2 text-sm text-white/90">Independent Consultant Dentist</p>
               </div>
             </div>
@@ -90,16 +90,16 @@ export default function About() {
             <div className="flex flex-col gap-4">
               <h3 className="font-serif text-2xl font-bold text-heading">Professional Biography</h3>
               <p className="text-sm md:text-base text-body-text leading-relaxed">
-                Dr. Mohamed Labeeb KP is a dedicated **Independent Consultant Pediatric Dentist** with over **5 years of clinical experience**. Rather than operating a single static clinic, Dr. Labeeb partners with multiple reputed dental centers, bringing high-quality, specialized pediatric dental care directly to local communities.
+                Dr. Mohamed Labeeb KP is a dedicated **Independent Consultant Pediatric Dentist**. He holds a Master of Dental Surgery (MDS) in Pediatric & Preventive Dentistry and is specialized in providing high-quality, clinical pediatric dental treatments.
               </p>
               <p className="text-sm md:text-base text-body-text leading-relaxed">
-                His passion for pediatric dentistry drives him to look beyond standard restorative treatments towards **Preventive Oral Healthcare**. He believes that early intervention, parental guidance, and positive motivation can prevent tooth decay from ever taking root, setting children up for a lifetime of healthy smiles.
+                His focus is centered on **Preventive Oral Healthcare** and early clinical intervention. He believes that parental guidance, dental health education, and early diagnostics can prevent decay, establishing a foundation for a lifetime of healthy smiles.
               </p>
               <p className="text-sm md:text-base text-body-text leading-relaxed">
-                A specialist in **Behaviour Management**, Dr. Labeeb uses pediatric psychology techniques to make dental visits feel like a fun, reassuring adventure. He also specializes in treating **Children with Special Health Care Needs (CSHCN)**, ensuring they receive patient, highly adapted, and compassionate dental care in a secure environment.
+                As a specialist in **Behaviour Management**, Dr. Labeeb utilizes pediatric psychology techniques to make dental visits comfortable and reassuring for children. He is also trained in managing **Children with Special Health Care Needs (CSHCN)**, ensuring they receive patient, highly adapted, and compassionate dental care.
               </p>
               <p className="text-sm md:text-base text-body-text leading-relaxed">
-                As part of his commitment to public health education, Dr. Labeeb actively initiates and leads **School Dental Health Programs**, teaching proper brushing, nutrition, and hygiene habits to children, teachers, and parents.
+                Committed to community oral health, Dr. Labeeb actively participates in **School Dental Health Programmes**, promoting proper brushing habits, diet guidelines, and preventive hygiene routines to children, teachers, and parents.
               </p>
             </div>
 

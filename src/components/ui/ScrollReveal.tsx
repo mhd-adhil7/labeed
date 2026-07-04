@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { m } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -24,62 +23,68 @@ export default function ScrollReveal({
   scale = 1,
   once = true,
 }: ScrollRevealProps) {
-  const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    // Only set up observer on desktop screens (>= 768px)
+    if (window.innerWidth < 768) {
+      setIsVisible(true);
+      return;
+    }
 
-  if (!mounted) {
-    return <div className={className}>{children}</div>;
-  }
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
 
-  // Mobile optimization:
-  // - Reduce animation duration by 50%
-  // - Reduce translate/scale values to minimize rendering workload
-  // - Always force once: true to avoid triggering updates repeatedly
-  const optimizedDuration = isMobile ? duration * 0.5 : duration;
-  const optimizedY = isMobile ? Math.min(y, 8) : y;
-  const optimizedX = isMobile ? Math.min(x, 8) : x;
-  const optimizedScale = isMobile ? 1 : scale;
-  const optimizedOnce = isMobile ? true : once;
-
-  const variants = {
-    hidden: { 
-      opacity: 0, 
-      y: optimizedY, 
-      x: optimizedX, 
-      scale: optimizedScale 
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      x: 0,
-      scale: 1,
-      transition: {
-        duration: optimizedDuration,
-        delay: isMobile ? delay * 0.5 : delay,
-        ease: [0.16, 1, 0.3, 1] as any,
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          if (once) {
+            observer.disconnect();
+          }
+        } else if (!once) {
+          setIsVisible(false);
+        }
       },
-    },
-  };
+      { threshold: 0.05, rootMargin: '-40px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    // Add resize listener to handle resizing between desktop and mobile viewport dynamically
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsVisible(true);
+      }
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [once]);
+
+  const customStyles = {
+    '--reveal-x': `${x}px`,
+    '--reveal-y': `${y}px`,
+    '--reveal-scale': scale,
+    '--reveal-duration': `${duration}s`,
+    '--reveal-delay': `${delay}s`,
+  } as React.CSSProperties;
 
   return (
-    <m.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: optimizedOnce, margin: isMobile ? '0px' : '-80px' }}
-      variants={variants}
-      className={className}
+    <div 
+      ref={ref} 
+      className={`scroll-reveal ${isVisible ? 'is-visible' : ''} ${className}`}
+      style={customStyles}
     >
       {children}
-    </m.div>
+    </div>
   );
 }

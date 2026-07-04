@@ -4,13 +4,19 @@ import React, { useEffect, useState, useRef } from 'react';
 
 export default function TimelineLine() {
   const [fillHeight, setFillHeight] = useState(0);
+  const [isMobile, setIsMobile] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.innerWidth < 768) {
+    const checkMobile = () => window.innerWidth < 768;
+    
+    if (checkMobile()) {
+      setIsMobile(true);
       setFillHeight(100);
       return;
     }
+
+    setIsMobile(false);
 
     const handleScroll = () => {
       if (!ref.current) return;
@@ -20,9 +26,8 @@ export default function TimelineLine() {
       const elementHeight = rect.height;
       const elementTop = rect.top;
       
-      // Calculate scroll progress percentage through the timeline element
-      const scrollStartPoint = windowHeight * 0.8; // line starts filling when top of timeline is at 80% viewport
-      const scrollEndPoint = windowHeight * 0.3; // line finishes when bottom of timeline reaches 30% viewport
+      const scrollStartPoint = windowHeight * 0.8;
+      const scrollEndPoint = windowHeight * 0.3;
       
       const totalRange = scrollStartPoint - scrollEndPoint;
       const currentPos = scrollStartPoint - elementTop;
@@ -37,6 +42,12 @@ export default function TimelineLine() {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (isMobile) {
+    return (
+      <div className="absolute left-0 top-3 bottom-3 w-[2px] bg-gradient-to-b from-primary to-secondary pointer-events-none" />
+    );
+  }
 
   return (
     <div ref={ref} className="absolute left-0 top-3 bottom-3 w-[2px] bg-slate-100 pointer-events-none">

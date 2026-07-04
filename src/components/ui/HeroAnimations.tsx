@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { m } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+
+const loadFeatures = () => import('@/utils/framer-features').then((res) => res.default);
 
 export default function HeroAnimations() {
   const [mounted, setMounted] = useState(false);
@@ -16,6 +18,8 @@ export default function HeroAnimations() {
   if (!mounted) return null;
 
   return (
+    <LazyMotion features={loadFeatures} strict>
+
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none hidden md:block">
       {/* Floating Bubbles */}
       <div className="absolute inset-0 opacity-40">
@@ -71,5 +75,6 @@ export default function HeroAnimations() {
         ))}
       </div>
     </div>
+    </LazyMotion>
   );
 }

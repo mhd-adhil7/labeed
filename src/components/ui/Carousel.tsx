@@ -15,11 +15,20 @@ export default function Carousel({
   desktopSlidesToShow = 3,
   className = '',
 }: CarouselProps) {
+  const [isMobile, setIsMobile] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    setMounted(true);
+  }, []);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     containScroll: false,
     loop: false,
     duration: 35,
+    active: !isMobile, // Disable Embla on mobile viewports
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -38,7 +47,7 @@ export default function Carousel({
   }, [emblaApi]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi || isMobile) return;
     onSelect();
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on('select', onSelect);
@@ -47,7 +56,7 @@ export default function Carousel({
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onSelect, isMobile]);
 
   let slideWidthClass = 'flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%]';
   if (desktopSlidesToShow === 1) {
@@ -58,18 +67,41 @@ export default function Carousel({
     slideWidthClass = 'flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] xl:flex-[0_0_25%]';
   }
 
+  if (!mounted) {
+    return (
+      <div className={`relative group w-full ${className}`}>
+        <div className="overflow-x-auto w-full px-2 no-scrollbar">
+          <div className="flex -mx-3">
+            {React.Children.map(children, (child, index) => (
+              <div key={index} className={`${slideWidthClass} px-3 py-4 opacity-100 scale-100`}>
+                <div className="h-full">{child}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`relative group w-full ${className}`}>
       {/* Viewport */}
-      <div className="overflow-hidden w-full px-2" ref={emblaRef}>
+      <div 
+        className={`w-full px-2 ${
+          isMobile 
+            ? 'overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth' 
+            : 'overflow-hidden'
+        }`} 
+        ref={isMobile ? null : emblaRef}
+      >
         <div className="flex -mx-3 touch-pan-y">
           {React.Children.map(children, (child, index) => {
             const isActive = index === selectedIndex;
             return (
               <div
                 key={index}
-                className={`${slideWidthClass} px-3 py-4 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                  isActive 
+                className={`${slideWidthClass} px-3 py-4 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] snap-center ${
+                  isMobile || isActive 
                     ? 'scale-102 opacity-100 z-10' 
                     : 'scale-[0.96] opacity-50 -translate-y-1 pointer-events-none md:pointer-events-auto'
                 }`}
@@ -80,7 +112,7 @@ export default function Carousel({
                 }}
               >
                 {/* Desktop hover animation: translateY(-6px) + soft shadow */}
-                <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-[6px] hover:shadow-[0_30px_60px_rgba(96,165,250,0.15)]">
+                <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hover:-translate-y-[6px] md:hover:shadow-[0_30px_60px_rgba(96,165,250,0.15)]">
                   {child}
                 </div>
               </div>
@@ -90,7 +122,7 @@ export default function Carousel({
       </div>
 
       {/* Prev / Next buttons (Desktop only) */}
-      {prevBtnEnabled && (
+      {!isMobile && prevBtnEnabled && (
         <button
           onClick={scrollPrev}
           className="hidden md:flex absolute top-1/2 left-2 -translate-y-1/2 w-12 h-12 rounded-full glass-premium border border-white/60 shadow-lg items-center justify-center text-heading hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer z-20"
@@ -99,7 +131,7 @@ export default function Carousel({
           <ChevronLeft className="w-6 h-6" />
         </button>
       )}
-      {nextBtnEnabled && (
+      {!isMobile && nextBtnEnabled && (
         <button
           onClick={scrollNext}
           className="hidden md:flex absolute top-1/2 right-2 -translate-y-1/2 w-12 h-12 rounded-full glass-premium border border-white/60 shadow-lg items-center justify-center text-heading hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer z-20"
@@ -109,8 +141,8 @@ export default function Carousel({
         </button>
       )}
 
-      {/* Pagination Dots */}
-      {scrollSnaps.length > 1 && (
+      {/* Pagination Dots (Desktop only) */}
+      {!isMobile && scrollSnaps.length > 1 && (
         <div className="flex justify-center gap-2.5 mt-8">
           {scrollSnaps.map((_, index) => (
             <button
@@ -127,3 +159,4 @@ export default function Carousel({
     </div>
   );
 }
+
